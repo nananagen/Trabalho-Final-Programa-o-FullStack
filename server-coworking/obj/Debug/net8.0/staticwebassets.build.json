@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "94ajmOIvu4b4k3uURXZKJ0KZEBpyT/GBIUpt7k+/IBs=",
+  "Source": "server-coworking",
+  "BasePath": "_content/server-coworking",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -1,0 +1,70 @@
+/* Espacos.css */
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f8e1f4; /* Cor de fundo rosa claro */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #d5006d; /* Cor do título */
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    background-color: #ffffff; /* Cor de fundo branco para os itens */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #d5006d; /* Cor do subtítulo */
+}
+
+input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid #d5006d; /* Cor da borda */
+    border-radius : 5px;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #d5006d; /* Cor do botão */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #b0004c; /* Cor do botão ao passar o mouse */
+}
+
+.descricao {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #ffffff; /* Cor de fundo branco para a descrição */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.descricao h2 {
+    color: #d5006d; /* Cor do subtítulo da descrição */
+}
+
+.descricao p {
+    color: #333; /* Cor do texto da descrição */
+    line-height: 1.5; /* Espaçamento entre linhas */
+}
