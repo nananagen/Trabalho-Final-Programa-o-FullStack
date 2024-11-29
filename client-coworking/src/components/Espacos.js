@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../api";
-import './Espacos.css';
+import './Styles.css';
 
 const Espacos = () => {
     const [espacos, setEspacos] = useState([]);
@@ -21,15 +21,21 @@ const Espacos = () => {
         return;
     }
 
-        api.post("/espacos", { nome, localizacao, capacidade })
-            .then(() => {
-                setEspacos([...espacos, { nome, localizacao, capacidade }]);
-                setNome("");
-                setLocalizacao("");
-                setCapacidade("");
-            })
-            .catch((error) => console.error(error));
-    };
+    const token = localStorage.getItem('token');
+
+    api.post("/espacos", { nome, localizacao, capacidade }, {
+      headers: {
+        Authorization: `Bearer ${token}` 
+      }
+    })
+      .then(() => {
+        setEspacos([...espacos, { nome, localizacao, capacidade }]);
+        setNome("");
+        setLocalizacao("");
+        setCapacidade("");
+      })
+      .catch((error) => console.error(error));
+  };
 
     return (
         <div className="container">

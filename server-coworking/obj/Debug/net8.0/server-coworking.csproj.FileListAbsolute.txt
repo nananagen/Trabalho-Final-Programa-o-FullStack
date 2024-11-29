@@ -165,3 +165,5 @@ C:\Users\Laura\Desktop\trabalho-final-programacao-fullstack\Trabalho-Final-Progr
 C:\Users\Laura\Desktop\trabalho-final-programacao-fullstack\Trabalho-Final-Programacao-FullStack\server-coworking\bin\Debug\net8.0\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\Laura\Desktop\trabalho-final-programacao-fullstack\Trabalho-Final-Programacao-FullStack\server-coworking\bin\Debug\net8.0\runtimes\win-x86\native\e_sqlite3.dll
 C:\Users\Laura\Desktop\trabalho-final-programacao-fullstack\Trabalho-Final-Programacao-FullStack\server-coworking\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
+C:\Users\Laura\Desktop\trabalho-final-programacao-fullstack\Trabalho-Final-Programacao-FullStack\server-coworking\bin\Debug\net8.0\dotenv.net.dll
+C:\Users\Laura\Desktop\trabalho-final-programacao-fullstack\Trabalho-Final-Programacao-FullStack\server-coworking\obj\Debug\net8.0\server-coworking.sourcelink.json

@@ -2,14 +2,14 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using server_coworking.Data; // Substitua pelo namespace correto do seu projeto
+using server_coworking.Data;
 using Microsoft.OpenApi.Models;
 using dotenv.net;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Adiciona serviços ao container
-builder.Services.AddControllers(); // Suporte para controladores
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 // Configuração do Swagger com autenticação JWT
@@ -44,7 +44,6 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Configuração do JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -54,11 +53,21 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = "SeuDominio.com",
-            ValidAudience = "SeuDominio.com",
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ChaveSuperSecreta")) // Substitua por uma chave forte e segura
+            ValidIssuer = "",
+            ValidAudience = "",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ChaveSuperSecreta"))
         };
     });
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000") // URL React
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
