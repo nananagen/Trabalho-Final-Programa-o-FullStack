@@ -1,18 +1,20 @@
 using System.Text;
+using dotenv.net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using server_coworking.Data;
 using Microsoft.OpenApi.Models;
-using dotenv.net;
+using server_coworking.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+
+DotEnv.Load();
 
 // Adiciona serviços ao container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-// Configuração do Swagger com autenticação JWT
+// Configuração do Swagger para suportar autenticação JWT
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -44,6 +46,8 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Configuração do JWT
+string jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET") ?? "ChaveSuperSecreta";
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -53,9 +57,21 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = "",
-            ValidAudience = "",
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ChaveSuperSecreta"))
+            ValidIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? "http://localhost:3000",
+            ValidAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? "http://localhost:3000",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret))
+        };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = ctx =>
+            {
+                ctx.Request.Cookies.TryGetValue("accessToken", out var accessToken);
+                if (!string.IsNullOrEmpty(accessToken))
+                    ctx.Token = accessToken;
+
+                return Task.CompletedTask;
+            }
         };
     });
 
@@ -63,17 +79,16 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy.WithOrigins("http://localhost:3000") // URL React
+        policy.WithOrigins("http://localhost:3000")
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
 var app = builder.Build();
 
-DotEnv.Load();
-
-// Configuração do pipeline de requisição HTTP
+// Configuração do pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -81,7 +96,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowReactApp");
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 app.Run();
